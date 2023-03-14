@@ -1,0 +1,46 @@
+﻿@model List<Libro>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Lista Libros</h1>
+<a asp-controller="Libro" asp-action="Create" class="btn float-end btn-primary" width="10">Crear</a>
+<br />
+<br />
+<div class="contairner">
+    <div class="row">
+        @if (Model.Count() > 0)
+        {
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td>Autor</td>
+                        <td>Titulo</td>
+                        <td>Materia</td>
+                        <td>Estado</td>
+                        <td>Tipo</td>
+                        <td>Categoria por edad</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Autor</td>
+                            <td>@item.Titulo</td>
+                            <td>@item.Materia</td>
+                            <td>@item.Estado</td>
+                            <td>@item.Tipo</td>
+                            <td>@item.Categoria</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No existe registros</p>
+        }
+    </div>
+</div>
