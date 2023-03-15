@@ -1,11 +1,11 @@
 ﻿@model Libro
 @{
-    ViewData["Title"] = "Crear";
+    ViewData["Title"] = "Eliminar Libros";
 }
 
 <div class="contairner">
     <h3>
-        Crear Libros
+        Eliminar Libros
     </h3>
     <br />
 </div>
@@ -14,13 +14,12 @@
 <div class="contairner">
     <div class="row">
         <div class="col-sm-8">
-            <form method="post" asp-controller="Libro" asp-action="Guardar">
+            <form method="post" asp-controller="Libro" asp-action="EliminarPage">
                 <div class="form-group">
                     <label asp-for="Titulo" class="control-label"></label>
                     <input asp-for="Titulo" class="form-control" />
                 </div>
                 <div class="form-group">
-
                     <label asp-for="Autor" class="control-label"></label>
                     <input asp-for="Autor" class="form-control" />
                 </div>
@@ -40,9 +39,8 @@
                     <label asp-for="Categoria" class="control-label"></label>
                     <input asp-for="Categoria" class="form-control" />
                 </div>
-                <br />
                 <div class="form-group">
-                    <input type="submit" value="Crear" class="btn btn-primary" />
+                    <input type="submit" value="Eliminar" class="btn btn-primary" />
                 </div>
             </form>
         </div>

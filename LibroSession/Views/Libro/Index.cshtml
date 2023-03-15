@@ -21,6 +21,7 @@
                         <td>Estado</td>
                         <td>Tipo</td>
                         <td>Categoria por edad</td>
+                        <td>Acciones</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,6 +34,9 @@
                             <td>@item.Estado</td>
                             <td>@item.Tipo</td>
                             <td>@item.Categoria</td>
+                            <td>
+                                <a asp-controller="Libro" asp-action="Delete" asp-route-titulo="@item.Titulo" class="btn float-end btn-primary" witdh="10">Eliminar</a>
+                            </td>
                         </tr>
                     }
                 </tbody>

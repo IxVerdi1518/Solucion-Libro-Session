@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using LibroSession.Session;
+using System.Collections.Generic;
 
 namespace LibroSession.Controllers
 {
     public class LibroController : Controller
     {
+        List<Libro> list = new List<Libro>();
         public IActionResult Index()
         {
             return View(listaLibros());
@@ -21,103 +23,51 @@ namespace LibroSession.Controllers
             return list;
         }
 
-        // GET: LibroController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: LibroController/Create
         [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult Guardar(Libro libro)
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    List<Libro> list = SessionHelper.GetObjectFromJson<List<Libro>>(HttpContext.Session, "libros");
-                    if (list == null)
-                        list = new List<Libro>();
-                    list.Add(libro);
-                    SessionHelper.SetObjectAsJson(HttpContext.Session, "libros", list);
-                    return RedirectToAction("Index");
-                }
-                catch (Exception ex)
-                {
-                    TempData["errorCedula"] = ex.Message;
-                    return View("Create", libro);
-                }
-
-
+                List<Libro> list = SessionHelper.GetObjectFromJson<List<Libro>>(HttpContext.Session, "libros");
+                if (list == null)
+                list = new List<Libro>();
+                list.Add(libro);
+                SessionHelper.SetObjectAsJson(HttpContext.Session, "libros", list);
+                return RedirectToAction("Index");
             }
             else
             {
-
                 return View("Create", libro);
             }
-
         }
 
-        // POST: LibroController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        [HttpGet("Libro/Delete/{titulo}")]
+        public IActionResult Delete(String titulo)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                List<Libro> list = SessionHelper.GetObjectFromJson<List<Libro>>(HttpContext.Session, "libros");
+                if (list == null)
+                {
+                    list = new List<Libro>();
+                    list.RemoveAll(x => x.Titulo == titulo);
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "libros", list);
+                    return RedirectToAction("Index");
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index");
         }
 
-        // GET: LibroController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: LibroController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: LibroController/Delete/5
-        public ActionResult Delete(int id)
+        [HttpGet]
+        public ActionResult Edit()
         {
             return View();
-        }
-
-        // POST: LibroController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
