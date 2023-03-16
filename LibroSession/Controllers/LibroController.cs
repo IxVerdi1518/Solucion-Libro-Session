@@ -48,12 +48,12 @@ namespace LibroSession.Controllers
         }
 
         [HttpGet("Libro/Delete/{titulo}")]
-        public IActionResult Delete(String titulo)
+        public IActionResult Delete(string titulo)
         {
             if (ModelState.IsValid)
             {
                 List<Libro> list = SessionHelper.GetObjectFromJson<List<Libro>>(HttpContext.Session, "libros");
-                if (list == null)
+                if (list != null)
                 {
                     list = new List<Libro>();
                     list.RemoveAll(x => x.Titulo == titulo);
@@ -64,10 +64,37 @@ namespace LibroSession.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public ActionResult Edit()
+        [Route("Libro/Edit/{titulo}")]
+        public IActionResult Edit(string titulo)
         {
-            return View();
+            List<Libro> list = SessionHelper.GetObjectFromJson<List<Libro>>(HttpContext.Session, "libros");
+            Libro? libro = list.Find(x => x.Titulo == titulo);
+            list.RemoveAll(x => x.Titulo == titulo);
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "libros", list);
+            if (libro == null)
+            {
+                return View("Error");
+            }
+            return View(libro);
+        }
+
+        [HttpPost]
+        public IActionResult ActualizarDatos(Libro libro)
+        {
+            if (ModelState.IsValid)
+            {
+                List<Libro> list = SessionHelper.GetObjectFromJson<List<Libro>>(HttpContext.Session, "libros");
+                if (list == null)
+                    list = new List<Libro>();
+                list.Add(libro);
+                SessionHelper.SetObjectAsJson(HttpContext.Session, "libros", list);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View("Edit", libro);
+
+            }
         }
     }
 }

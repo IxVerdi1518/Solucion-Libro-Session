@@ -15,8 +15,8 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <td>Autor</td>
                         <td>Titulo</td>
+                        <td>Autor</td>
                         <td>Materia</td>
                         <td>Estado</td>
                         <td>Tipo</td>
@@ -35,7 +35,10 @@
                             <td>@item.Tipo</td>
                             <td>@item.Categoria</td>
                             <td>
+
+
                                 <a asp-controller="Libro" asp-action="Delete" asp-route-titulo="@item.Titulo" class="btn float-end btn-primary" witdh="10">Eliminar</a>
+                                <a asp-controller="Libro" asp-action="Edit" asp-route-titulo="@item.Titulo" class="btn float-end btn-primary" witdh="10">Editar</a>
                             </td>
                         </tr>
                     }
